@@ -12,7 +12,7 @@ const port = 3000;
 const verifyToken = "MiTokenDeVerificacion123!";
 
 // ⭐ NUEVO: URL de tu webhook de n8n
-const N8N_WEBHOOK_URL = "http://localhost:5678/webhook-test/14ca0bf8-7310-444a-af9b-b037e8816801"; // Reemplaza con tu URL real de n8n
+const N8N_WEBHOOK_URL = "https://5678-rob37toislas-pruebajs-45gc7naqt4p.ws-us121.gitpod.io/webhook-test/14ca0bf8-7310-444a-af9b-b037e8816801"; // Reemplaza con tu URL real de n8n
 
 // Route for GET requests (verificación del webhook)
 app.get('/', (req, res) => {
@@ -64,4 +64,5 @@ app.listen(port, () => {
   console.log(`\nListening on port ${port}\n`);
   console.log(`Webhook listo para recibir mensajes y reenviar a n8n: ${N8N_WEBHOOK_URL}`);
 });
+
 

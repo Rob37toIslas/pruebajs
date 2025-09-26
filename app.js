@@ -1,5 +1,6 @@
+// Import Express.js y axios
 const express = require('express');
-const fetch = require('node-fetch'); // Asegúrate de instalar: npm install node-fetch
+const axios = require('axios'); // Instalar: npm install axios
 
 // Create an Express app
 const app = express();
@@ -11,10 +12,10 @@ app.use(express.json());
 const port = 3000;
 const verifyToken = "MiTokenDeVerificacion123!";
 
-// ⭐ NUEVO: URL de tu webhook de n8n
-const N8N_WEBHOOK_URL = "https://5678-rob37toislas-pruebajs-45gc7naqt4p.ws-us121.gitpod.io/webhook-test/14ca0bf8-7310-444a-af9b-b037e8816801"; // Reemplaza con tu URL real de n8n
+// ⭐ URL de tu webhook de n8n
+const N8N_WEBHOOK_URL = 'https://5678-rob37toislas-pruebajs-45gc7naqt4p.ws-us121.gitpod.io/webhook-test/14ca0bf8-7310-444a-af9b-b037e8816801';
 
-// Route for GET requests (verificación del webhook)
+// Route for GET requests
 app.get('/', (req, res) => {
   console.log('Query recibido:', req.query);
   const { 'hub.mode': mode, 'hub.challenge': challenge, 'hub.verify_token': token } = req.query;
@@ -27,30 +28,24 @@ app.get('/', (req, res) => {
   }
 });
 
-// ⭐ MODIFICADO: Route for POST requests - Ahora reenvía a n8n
+// Route for POST requests
 app.post('/', async (req, res) => {
   const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
   console.log(`\n\nWebhook received ${timestamp}\n`);
   console.log('Datos recibidos de WhatsApp:', JSON.stringify(req.body, null, 2));
   
   try {
-    // Reenviar los datos al webhook de n8n
+    // Reenviar los datos al webhook de n8n usando axios
     console.log('Reenviando a n8n...');
     
-    const response = await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
+    const response = await axios.post(N8N_WEBHOOK_URL, req.body, {
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(req.body)
+      }
     });
     
-    if (response.ok) {
-      console.log('✅ Datos enviados correctamente a n8n');
-      console.log('Status n8n:', response.status);
-    } else {
-      console.error('❌ Error al enviar a n8n:', response.status, response.statusText);
-    }
+    console.log('✅ Datos enviados correctamente a n8n');
+    console.log('Status n8n:', response.status);
     
   } catch (error) {
     console.error('❌ Error de conexión con n8n:', error.message);
@@ -64,5 +59,3 @@ app.listen(port, () => {
   console.log(`\nListening on port ${port}\n`);
   console.log(`Webhook listo para recibir mensajes y reenviar a n8n: ${N8N_WEBHOOK_URL}`);
 });
-
-

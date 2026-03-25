@@ -13,7 +13,7 @@ const port = 3000;
 const verifyToken = "MiTokenDeVerificacion123!";
 
 // ⭐ URL de tu webhook de n8n
-const N8N_WEBHOOK_URL = 'https://juanjoetm123.app.n8n.cloud/webhook-test/37968c75-e396-4d78-837f-99ca666293a7';
+const N8N_WEBHOOK_URL = 'https://n8n-2-9c9v.onrender.com/webhook/324a36ef-7110-4878-b085-9583d5d89c4d';
 
 // Route for GET requests
 app.get('/', (req, res) => {
